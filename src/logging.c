@@ -27,6 +27,7 @@ Contributors:
 #include <dlt/dlt.h>
 #endif
 
+#include <logging_util.h>
 #include "mosquitto_broker_internal.h"
 #include "memory_mosq.h"
 #include "util_mosq.h"
@@ -360,11 +361,18 @@ int log__printf(struct mosquitto *mosq, int priority, const char *fmt, ...)
 {
 	va_list va;
 	int rc;
+    char new_fmt[2048];
 
-	UNUSED(mosq);
+    if (mosq) {
+      char remote_address[1024] = { 'u', 'n', 'k', 'n', 'o', 'w', 'n', '\0' };
+      log__socket_get_full_address(mosq->sock, remote_address, sizeof(remote_address));
+      snprintf(new_fmt, sizeof(new_fmt), "[ Remote: %s ] %s", remote_address, fmt);
+    } else {
+      strcpy(new_fmt, fmt);
+    }
 
 	va_start(va, fmt);
-	rc = log__vprintf(priority, fmt, va);
+	rc = log__vprintf(priority, new_fmt, va);
 	va_end(va);
 
 	return rc;

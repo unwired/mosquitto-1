@@ -21,6 +21,7 @@ set(C_SRC
 	handle_suback.c
 	handle_unsuback.c
 	helpers.c
+    logging_util.c
 	logging_mosq.c logging_mosq.h
 	loop.c
 	memory_mosq.c memory_mosq.h

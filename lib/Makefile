@@ -18,6 +18,7 @@ MOSQ_OBJS=mosquitto.o \
 		  handle_unsuback.o \
 		  helpers.o \
 		  logging_mosq.o \
+		  logging_util.o \
 		  loop.o \
 		  memory_mosq.o \
 		  messages_mosq.o \
@@ -142,6 +143,9 @@ helpers.o : helpers.c
 	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
 
 logging_mosq.o : logging_mosq.c logging_mosq.h
+	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
+
+logging_util.o : logging_util.c logging_util.h
 	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
 
 loop.o : loop.c mosquitto.h mosquitto_internal.h

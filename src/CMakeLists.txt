@@ -23,6 +23,7 @@ set (MOSQ_SRCS
 	handle_unsubscribe.c
 	lib_load.h
 	logging.c
+    ../lib/logging_util.c
 	loop.c
 	../lib/memory_mosq.c ../lib/memory_mosq.h
 	mosquitto.c

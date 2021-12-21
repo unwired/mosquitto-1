@@ -497,6 +497,8 @@ int net__socket_connect_tls(struct mosquitto *mosq)
 		}
 	}
 
+    // https://stackoverflow.com/a/38712044/203506
+    // https://www.openssl.org/docs/manmaster/man3/SSL_CTX_set_cert_verify_callback.html
 	ret = SSL_connect(mosq->ssl);
 	if(ret != 1) {
 		err = SSL_get_error(mosq->ssl, ret);

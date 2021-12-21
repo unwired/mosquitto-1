@@ -15,6 +15,7 @@ Contributors:
 */
 
 #include "config.h"
+#include <openssl/x509.h>
 
 #ifndef WIN32
 #include <netdb.h>
@@ -251,9 +252,19 @@ int net__socket_accept(struct mosquitto_db *db, mosq_sock_t listensock)
 #ifdef WITH_TLS
 static int client_certificate_verify(int preverify_ok, X509_STORE_CTX *ctx)
 {
-	UNUSED(ctx);
-
 	/* Preverify should check expiry, revocation. */
+    if (!preverify_ok) {
+      char data[256];
+      X509* cert = X509_STORE_CTX_get_current_cert(ctx);
+      if (!cert) {
+        // no certificate is relevant to the error
+        return preverify_ok;
+      }
+      int err = X509_STORE_CTX_get_error(ctx);
+      X509_NAME_oneline(X509_get_subject_name(cert), data, sizeof(data));
+      log__printf(NULL, MOSQ_LOG_INFO, "Cert Subject = %s, err = %i:%s", data, err,
+                  X509_verify_cert_error_string(err));
+    }
 	return preverify_ok;
 }
 #endif

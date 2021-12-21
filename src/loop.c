@@ -698,19 +698,19 @@ void do_disconnect(struct mosquitto_db *db, struct mosquitto *context, int reaso
 					case MOSQ_ERR_SUCCESS:
 						break;
 					case MOSQ_ERR_PROTOCOL:
-						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected due to protocol error.", id);
+						log__printf(context, MOSQ_LOG_NOTICE, "Client %s disconnected due to protocol error.", id);
 						break;
 					case MOSQ_ERR_CONN_LOST:
-						log__printf(NULL, MOSQ_LOG_NOTICE, "Socket error on client %s, disconnecting.", id);
+						log__printf(context, MOSQ_LOG_NOTICE, "Socket error on client %s, disconnecting.", id);
 						break;
 					case MOSQ_ERR_AUTH:
-						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected, no longer authorised.", id);
+						log__printf(context, MOSQ_LOG_NOTICE, "Client %s disconnected, no longer authorised.", id);
 						break;
 					case MOSQ_ERR_KEEPALIVE:
-						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s has exceeded timeout, disconnecting.", id);
+						log__printf(context, MOSQ_LOG_NOTICE, "Client %s has exceeded timeout, disconnecting.", id);
 						break;
 					default:
-						log__printf(NULL, MOSQ_LOG_NOTICE, "Socket error on client %s, disconnecting.", id);
+						log__printf(context, MOSQ_LOG_NOTICE, "Socket error on client %s, disconnecting.", id);
 						break;
 				}
 			}else{
